@@ -15,7 +15,7 @@
         </div>
     @endif
     <h3 class="mb-3">
-        <i class="fa-solid fa-newspaper"></i> Data Tentang Kami
+        <i class="fa-solid fa-newspaper me-2"></i> Data Tentang Kami
     </h3>
 
     <!-- Button Tambah -->

@@ -16,7 +16,7 @@
         </div>
     @endif
     <h3 class="mb-3">
-        <i class="fas fa-image"></i>Data Gambar Tentang Kami
+        <i class="fas fa-image me-2"></i>Data Gambar Tentang Kami
     </h3>
 
     <!-- Button Tambah -->

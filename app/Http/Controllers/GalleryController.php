@@ -9,17 +9,17 @@ class GalleryController extends Controller
 {
     public function gallstore(Request $request){
         $request->validate([
-            'gambar' => 'required|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:2048',
+            'nama' => 'required|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:2048',
             'tipe' => 'required|in:foto,video'
         ]);
 
-        $gambar = $request->file('gambar');
-        $namaGambar = time() . '.' . $gambar->getClientOriginalExtension();
-        $gambar->storeAs('galeri', $namaGambar);
+        $gallery = $request->file('nama');
+        $filename = time() . '.' . $gallery->getClientOriginalExtension();
+        $gallery->storeAs('galeri', $filename);
 
         // Simpan ke database
         Gallery::create([
-            'gambar' => $namaGambar,
+            'nama' => $filename,
             'tipe' => $request->tipe
         ]);
 
@@ -36,23 +36,23 @@ class GalleryController extends Controller
     public function gallupdate(Request $request, $id){
         $id = $this->decryptId($id);
         $request->validate([
-            'gambar' => 'nullable|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:2048',
+            'nama' => 'nullable|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:2048',
             'tipe' => 'required|in:foto,video'
         ]);
 
         $gallery = Gallery::findOrFail($id);
 
-        if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar');
-            $namaGambar = time() . '.' . $gambar->getClientOriginalExtension();
-            $gambar->storeAs('galeri', $namaGambar);
+        if ($request->hasFile('nama')) {
+            $gallery = $request->file('nama');
+            $namaGambar = time() . '.' . $gallery->getClientOriginalExtension();
+            $gallery->storeAs('galeri', $namaGambar);
         } else {
-            $namaGambar = $gallery->gambar;
+            $namaGambar = $gallery->nama;
         }
 
         // Update database
         $gallery->update([
-            'gambar' => $namaGambar,
+            'nama' => $namaGambar,
             'tipe' => $request->tipe
         ]);
 

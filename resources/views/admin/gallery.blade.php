@@ -17,7 +17,7 @@
         </div>
     @endif
     <h3 class="mb-3">
-        <i class="fas fa-images"></i>Data Gallery
+        <i class="fas fa-images me-2"></i>Data Gallery
     </h3>
     <!-- Button Tambah -->
     <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#tambahGallery">
@@ -70,8 +70,8 @@
                     <form action="{{ route('admin.gallery-store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
-                            <label for="gambar" class="form-label">Pilih Gambar/Video</label>
-                            <input class="form-control" type="file" id="gambar" name="gambar" required>
+                            <label for="nama" class="form-label">Pilih Gambar/Video</label>
+                            <input class="form-control" type="file" id="nama" name="nama" required>
                         </div>
                         <div class="mb-3">
                             <label for="tipe" class="form-label">Tipe</label>
@@ -80,7 +80,6 @@
                                 <option value="video">Video</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
                 </div>
                 <div class="modal-footer">
