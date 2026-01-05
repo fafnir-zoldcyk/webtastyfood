@@ -25,7 +25,7 @@ class BeritaController extends Controller
             'nama_penulis' => 'required|string|max:255',
             'tanggal' => 'required|date',
             'kategori' => 'required|in:makanan,minuman',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:4096',
         ]);
          if ($request->hasFile('foto')) {
             $foto   = $request->file('foto');
@@ -53,7 +53,7 @@ class BeritaController extends Controller
             'nama_penulis' => 'required|string|max:255',
             'tanggal' => 'required|date',
             'kategori' => 'required|in:makanan,minuman',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
         ]);
 
         $berita = Berita::findOrFail($id);

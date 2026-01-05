@@ -22,6 +22,11 @@
         margin:0;
         padding:0;
     }
+    .body-class{
+        min-height:100vh;
+        display:flex;
+        flex-direction:column;
+    }
 
 /* ===============================
    NAVBAR

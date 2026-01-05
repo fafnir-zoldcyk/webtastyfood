@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Gallery;
+use App\Models\Komentar;
 use App\Models\Kontak;
 use App\Models\Tentang;
 use Illuminate\Http\Request;
@@ -31,6 +32,7 @@ class UserController extends Controller
     }
     public function berita(){
         $data['berita'] = Berita::latest()->first();
+        $data['komentar'] = Komentar::all();
         $data['lainnya'] = Berita::all();
         return view('user.berita',$data);
     }
