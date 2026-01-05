@@ -33,7 +33,12 @@
     width:100%;
     z-index:10;
 }
-.navbar-brand,
+.navbar-brand{
+    color:#000 !important;
+    font-size:22px;
+    /* letter-spacing:1.5px; */
+    font-weight:700;
+}
 .nav-link{
     color:#333 !important;
     font-size:14px;
@@ -79,11 +84,22 @@
 
 /* TEXT */
 .hero-title{
+    position: relative;
     font-size:52px;
     font-weight:700;
     line-height:1.2;
     color:#222;
 }
+/* .hero-title::before{
+    content:"";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:50px;
+    height:4px;
+    background:#000000;
+    margin-bottom:16px;
+} */
 .hero-text p{
     max-width:420px;
     color:#555;
@@ -92,10 +108,10 @@
 /* IMAGE RIGHT (FULL EDGE) */
 .hero-img{
     position:absolute;
-    right:-183px;
-    top:210px;
+    right:-190px;
+    top:214px;
     transform:translateY(-50%);
-    max-height:90vh;
+    max-height:120vh;
     width:auto;
     z-index:1;
 }
@@ -301,10 +317,10 @@
 
             <ul class="navbar-nav flex-row gap-4">
                 <li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ route('kontak') }}">KONTAK</a></li>
                 <li class="nav-item"><a class="nav-link" href="/tentang">TENTANG</a></li>
                 <li class="nav-item"><a class="nav-link" href="/berita">BERITA</a></li>
-                <li class="nav-item"><a class="nav-link" href="/galeri">GALERI</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('user.gallery') }}">GALERI</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('user.kontak') }}">KONTAK</a></li>
             </ul>
         </div>
     </div>
@@ -330,7 +346,7 @@
             {{-- BRAND --}}
             <div class="col-lg-4 col-md-6">
                 <h5 class="fw-bold text-white mb-3">Tasty Food</h5>
-                <p class="text-muted small">
+                <p class="text-white small">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
