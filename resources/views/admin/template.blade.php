@@ -209,6 +209,12 @@
                 </a>
             </li>
             <li class="mb-1">
+                <a href="{{ route('admin.user') }}" class="nav-link {{ request()->routeIs('admin.user') ? 'active' : '' }}">
+                    <i class="fas fa-users"></i>
+                    <span>User</span>
+                </a>
+            </li>
+            <li class="mb-1">
                 <a href="{{ route('admin.berita') }}" class="nav-link {{ request()->routeIs('admin.berita') ? 'active' : '' }}">
                     <i class="fas fa-newspaper"></i>
                     <span>Berita</span>
