@@ -15,125 +15,87 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #F4F6F6;
-            color: #333;
+            background-color: #F8FAFC;
+            color: #1F2937;
             margin: 0;
             min-height: 100vh;
             display: flex;
-            flex-direction: row;
         }
 
+        /* ================= SIDEBAR ================= */
         .sidebar {
             width: 250px;
-            background-color: #2e537d;
+            background: linear-gradient(180deg, #1E3A8A, #1E40AF);
             min-height: 100vh;
-            flex-shrink: 0;
-            display: block;
-            flex-direction: column;
-            padding: 1rem;
+            padding: 1.2rem 1rem;
             position: fixed;
             z-index: 1000;
-            transition: left 0.3s;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+            transition: left 0.3s ease;
             left: 0;
         }
 
         .sidebar h4 {
             font-weight: 600;
-        }
-
-        .sidebar .nav-pills {
-            padding-top: 0.5rem;
+            letter-spacing: 0.5px;
         }
 
         .sidebar .nav-link {
-            color: #E8F5E9;
+            color: #E5E7EB;
             font-weight: 500;
-            margin-bottom: 0.5rem;
-            padding: 0.6rem 0.9rem;
-            border-radius: 0.6rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            transition: background-color 0.2s;
+            margin-bottom: 6px;
+            transition: all 0.3s ease;
         }
 
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            background-color: #2e537d;
+        .sidebar .nav-link:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateX(6px);
             color: #fff;
+        }
+
+        .sidebar .nav-link.active {
+            background: #ffffff;
+            color: #1E40AF;
+            font-weight: 600;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
         }
 
         .sidebar .nav-link i {
             font-size: 1rem;
         }
 
+        /* ================= MAIN WRAPPER ================= */
         .main-wrapper {
             flex: 1;
-            margin-left:250px;
-            display: flex;
-            flex-direction: column;
+            margin-left: 250px;
             min-height: 100vh;
-            transition: margin-left 0.3s;
-        }
-
-        .topbar {
-            background-color: #fff;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-            padding: 0.8rem 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .topbar .search-box {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: #F8F9FA;
-            border-radius: 0.5rem;
-            padding: 0.3rem 0.8rem;
-        }
-
-        .topbar .search-box input {
-            border: none;
-            background: transparent;
-            outline: none;
-            font-size: 0.9rem;
-        }
-
-        .topbar .user-info {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .topbar .user-info img {
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            transition: margin-left 0.3s ease;
         }
 
         .content {
-            flex: 1;
-            padding: 25px;
+            padding: 30px;
         }
 
+        /* ================= BUTTON ================= */
         .btn-primary {
-            background-color: #003cff;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
             border: none;
+            border-radius: 10px;
         }
 
         .btn-primary:hover {
-            background-color: #0077ff;
+            background: linear-gradient(135deg, #1D4ED8, #1E40AF);
         }
 
-        /* Responsive Styles */
+        /* ================= RESPONSIVE ================= */
         @media (max-width: 991.98px) {
             .sidebar {
                 left: -250px;
-                position: fixed;
-                top: 0;
-                height: 100vh;
             }
             .sidebar.active {
                 left: 0;
@@ -141,145 +103,76 @@
             .main-wrapper {
                 margin-left: 0;
             }
-            .topbar {
-                padding: 0.8rem 1rem;
-            }
-        }
-
-        @media (max-width: 767.98px) {
-            body {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 220px;
-                padding: 0.7rem;
-            }
-            .content {
-                padding: 15px;
-            }
-            .topbar .search-box input {
-                width: 100px;
-            }
-        }
-
-        @media (max-width: 575.98px) {
-            .sidebar {
-                width: 180px;
-                padding: 0.5rem;
-            }
-            .topbar {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-            .topbar .search-box input {
-                width: 70px;
-            }
-        }
-
-        /* Hamburger button */
-        .sidebar-toggle {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: #2E7D32;
-            margin-right: 1rem;
-        }
-        @media (max-width: 991.98px) {
-            .sidebar-toggle {
-                display: block;
-            }
         }
     </style>
 </head>
 
 <body>
+
     {{-- SIDEBAR --}}
     <nav class="sidebar" id="sidebar">
         <h4 class="text-white text-center mb-4">
             <i class="fa-solid fa-store me-2"></i> Tasty Food
         </h4>
 
-        <ul class="nav nav-pills flex-column mb-4">
-            <li class="mb-1">
-                <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                    <i class="fa-solid fa-chart-line"></i>
-                    <span>Dashboard</span>
+        <ul class="nav flex-column">
+            <li>
+                <a href="{{ route('admin.dashboard') }}"
+                   class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    <i class="fa-solid fa-chart-line"></i> Dashboard
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="{{ route('admin.user') }}" class="nav-link {{ request()->routeIs('admin.user') ? 'active' : '' }}">
-                    <i class="fas fa-users"></i>
-                    <span>User</span>
+            <li>
+                <a href="{{ route('admin.user') }}"
+                   class="nav-link {{ request()->routeIs('admin.user') ? 'active' : '' }}">
+                    <i class="fas fa-users"></i> User
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="{{ route('admin.berita') }}" class="nav-link {{ request()->routeIs('admin.berita') ? 'active' : '' }}">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Berita</span>
+            <li>
+                <a href="{{ route('admin.berita') }}"
+                   class="nav-link {{ request()->routeIs('admin.berita') ? 'active' : '' }}">
+                    <i class="fas fa-newspaper"></i> Berita
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="{{ route('admin.tentang') }}" class="nav-link {{ request()->routeIs('admin.produk') ? 'active' : '' }}">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span>Tentang Kami</span>
+            <li>
+                <a href="{{ route('admin.tentang') }}"
+                   class="nav-link {{ request()->routeIs('admin.tentang') ? 'active' : '' }}">
+                    <i class="fa-solid fa-circle-info"></i> Tentang Kami
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="{{ route('admin.gambar') }}" class="nav-link {{ request()->routeIs('admin.produk.gambar') ? 'active' : '' }}">
-                    <i class="fa-solid fa-image"></i>
-                    <span>Gambar Tentang</span>
+            <li>
+                <a href="{{ route('admin.gambar') }}"
+                   class="nav-link {{ request()->routeIs('admin.gambar') ? 'active' : '' }}">
+                    <i class="fa-solid fa-image"></i> Gambar Tentang
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="{{ route('admin.gallery') }}" class="nav-link {{ request()->routeIs('admin.produk.gambar') ? 'active' : '' }}">
-                    <i class="fa-solid fa-images"></i>
-                    <span>Gallery</span>
+            <li>
+                <a href="{{ route('admin.gallery') }}"
+                   class="nav-link {{ request()->routeIs('admin.gallery') ? 'active' : '' }}">
+                    <i class="fa-solid fa-images"></i> Gallery
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="{{ route('admin.kontak') }}" class="nav-link {{ request()->routeIs('admin.kategori') ? 'active' : '' }}">
-                    <i class="fa-solid fa-phone"></i>
-                    <span>Kontak</span>
+            <li>
+                <a href="{{ route('admin.kontak') }}"
+                   class="nav-link {{ request()->routeIs('admin.kontak') ? 'active' : '' }}">
+                    <i class="fa-solid fa-phone"></i> Kontak
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="{{ route('logout') }}" class="nav-link {{ request()->routeIs('logout') ? 'active' : '' }}">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span>Logout</span>
+            <li>
+                <a href="{{ route('logout.admin') }}" class="nav-link">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
                 </a>
             </li>
         </ul>
     </nav>
 
-    {{-- MAIN WRAPPER --}}
+    {{-- MAIN --}}
     <div class="main-wrapper">
-
-        {{-- MAIN CONTENT --}}
         <div class="content">
             @yield('konten')
         </div>
     </div>
 
     <script src="{{ asset('bootstrap1/js/bootstrap.bundle.min.js') }}"></script>
-    <script>
-        // Sidebar toggle for mobile/tablet
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            var sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
-        });
-
-        // Optional: close sidebar when clicking outside (mobile)
-        document.addEventListener('click', function(e) {
-            var sidebar = document.getElementById('sidebar');
-            var toggle = document.getElementById('sidebarToggle');
-            if (window.innerWidth <= 991.98 && sidebar.classList.contains('active')) {
-                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
-                    sidebar.classList.remove('active');
-                }
-            }
-        });
-    </script>
 </body>
 </html>

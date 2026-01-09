@@ -10,8 +10,7 @@
             {{-- TEXT KIRI --}}
             <div class="col-md-6 hero-text">
                 <h1>
-
-                    HEALTHY<br>
+                    <span class="line-top">HEALTHY</span><br>
                 </h1>
                 <h1 class="hero-title">
                     TASTY FOOD
@@ -22,7 +21,7 @@
                     Phasellus ornare augue eu rutrum commodo.
                 </p>
 
-                <a href="/tentang" class="btn btn-dark px-4 py-2 mt-3">
+                <a href="/tentang" class="btn btn-tentang ">
                     TENTANG KAMI
                 </a>
             </div>
@@ -124,7 +123,7 @@
                 <div class="card-body">
                     <h5 class="fw-bold">{{ $utama->judul }}</h5>
                     <p class="text-muted">{{ $utama->deskripsi }}</p>
-                    <a href="#" class="read-more">Baca selengkapnya</a>
+                    <a href="{{ route('user.detail', Crypt::encrypt($utama->id)) }}" class="read-more">Baca selengkapnya</a>
                 </div>
             </div>
         </div>
@@ -141,7 +140,7 @@
                             <p class="text-muted small flex-grow-1">
                                 {{ $item['deskripsi'] }}
                             </p>
-                            <a href="#" class="read-more small">Baca selengkapnya</a>
+                            <a href="{{ route('user.detail', Crypt::encrypt($item->id)) }}" class="read-more small">Baca selengkapnya</a>
                         </div>
                     </div>
                 </div>

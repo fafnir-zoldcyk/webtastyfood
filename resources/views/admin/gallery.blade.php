@@ -28,11 +28,11 @@
             <div class="col-md-4">
                 <div class="card shadow-sm rounded-4 h-100">
                     @if ($item->tipe == 'foto')
-                    <img src="{{ asset('storage/galeri/' .$item->gambar) }}"
-                    class="card-img-top rounded-top-4" alt="{{ $item->gambar }}">
+                    <img src="{{ asset('storage/gallery/' .$item->nama) }}"
+                    class="card-img-top rounded-top-4" alt="{{ $item->nama }}">
                     @elseif ($item->tipe == 'video')
                     <video width="100%" height="auto" controls>
-                        <source src="{{ asset('storage/galeri/' .$item->gambar) }}" type="video/mp4">
+                        <source src="{{ asset('storage/gallery/' .$item->nama) }}" type="video/mp4">
                             Browser Anda tidak mendukung pemutar video.
                     </video>
                     @endif
@@ -52,14 +52,69 @@
                     </button>
                     </div>
                     <div class="card-footer text-muted-small">
-                        {{ Carbon::parse($item->timestamp)->format('d m Y') }}
+                        {{ \Carbon\Carbon::parse($item->timestamp)->format('d m Y') }}
+                    </div>
+                </div>
+            </div>
+            {{-- modal edit --}}
+            <div class="modal fade" id="modalEdit{{ $item->id }}" tabindex="-1" aria-labelledby="modalEditLabel{{ $item->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalEditLabel{{ $item->id }}">Edit Gambar Tentang Kami</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="{{ route('admin.gallery-update', Crypt::encrypt($item->id)) }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Pilih Gambar/Video</label>
+                                    <input type="file" class="form-control" id="nama" name="nama">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="tipe" class="form-label">Tipe Gambar</label>
+                                    <select class="form-control" id="tipe" name="tipe" required>
+                                        <option value="foto" {{ $item->tipe == 'foto' ? 'selected' : '' }}>Foto</option>
+                                        <option value="video" {{ $item->tipe == 'video' ? 'selected' : '' }}>Video</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {{-- modal hapus --}}
+            <div class="modal fade" id="modalHapus{{ $item->id }}" tabindex="-1" aria-labelledby="modalHapusLabel{{ $item->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalHapusLabel{{ $item->id }}">Hapus Gambar Tentang Kami</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Apakah Anda yakin ingin menghapus gambar ini?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <form action="{{ route('admin.gallery-delete', Crypt::encrypt($item->id)) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         @endforeach
     </div>
     {{-- modal tambah gallery --}}
-    <div class="modal fade" id="tambahGallery" tabindex="-1" aria-labelledby="tambahGalleryLabel" aria-hidden="true">
+    <div class="modal fade" id="tambahGallery" tabindex="-1" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -80,11 +135,11 @@
                                 <option value="video">Video</option>
                             </select>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>

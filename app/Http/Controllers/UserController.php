@@ -8,6 +8,7 @@ use App\Models\Komentar;
 use App\Models\Kontak;
 use App\Models\Tentang;
 use App\Models\User;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,7 +43,7 @@ class UserController extends Controller
         return view('login');
     }
     public function loginPost(Request $request){
-        $credentials = $request->only('username', 'password');
+        $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             if (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.dashboard')->with('success','Selamat Datang Admin');
@@ -54,13 +55,21 @@ class UserController extends Controller
     }
     public function logout(){
         Auth::logout();
-        return redirect()->route('admin.login');
+        return redirect()->route('user.home')->with('success','Anda telah logout');
+    }
+    private function decryptId($encryptedId){
+        try {
+            return decrypt($encryptedId);
+        } catch (DecryptException $e) {
+            abort(404);
+        }
     }
     public function beritadetail($id){
+        $id = $this->decryptId($id);
         $data['berita'] = Berita::find($id);
         $data['komentar'] = Komentar::where('berita_id', $id)->get();
         $data['lainnya'] = Berita::all();
-        return view('user.beritadetail',$data);
+        return view('user.detail',$data);
     }
     public function register(){
         return view('register');
@@ -68,12 +77,12 @@ class UserController extends Controller
     public function registerPost(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:3',
         ]);    
         User::create([
             'name' => $request->name,
-            'username' => $request->username,
+            'email' => $request->email,
             'role' => 'user',
             'password' => bcrypt($request->password),
         ]);

@@ -75,7 +75,7 @@
                 @csrf
                 <div class="input-group mb-3">
                     <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
-                    <input type="text" name="username" id="username" class="form-control" placeholder="Username">
+                    <input type="text" name="email" id="email" class="form-control" placeholder="Email">
                 </div>
 
                 <div class="input-group mb-3">

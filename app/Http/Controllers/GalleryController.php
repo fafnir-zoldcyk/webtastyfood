@@ -3,19 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Gallery;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 
 class GalleryController extends Controller
 {
     public function gallstore(Request $request){
         $request->validate([
-            'nama' => 'required|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:2048',
+            'nama' => 'required|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:5008',
             'tipe' => 'required|in:foto,video'
         ]);
 
-        $gallery = $request->file('nama');
-        $filename = time() . '.' . $gallery->getClientOriginalExtension();
-        $gallery->storeAs('galeri', $filename);
+        if ($request->hasFile('nama')) {
+            $gallery   = $request->file('nama');
+            $filename = time() . '-' . '.' . $gallery->getClientOriginalExtension();
+            $gallery->storeAs('gallery', $filename, 'public');
+        } else {
+            $filename = null;
+        }
 
         // Simpan ke database
         Gallery::create([
@@ -28,7 +33,7 @@ class GalleryController extends Controller
     private function decryptId($id){
         try{
             return decrypt($id);
-        } catch (\Illuminate\Contracts\Encryption\DecryptException $e){
+        } catch (DecryptException $e){
             abort(404);
         }
     }
@@ -36,25 +41,24 @@ class GalleryController extends Controller
     public function gallupdate(Request $request, $id){
         $id = $this->decryptId($id);
         $request->validate([
-            'nama' => 'nullable|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:2048',
+            'nama' => 'nullable|file|mimes:jpeg,png,jpg,mp4,mov,avi|max:5008',
             'tipe' => 'required|in:foto,video'
         ]);
 
         $gallery = Gallery::findOrFail($id);
 
         if ($request->hasFile('nama')) {
-            $gallery = $request->file('nama');
-            $namaGambar = time() . '.' . $gallery->getClientOriginalExtension();
-            $gallery->storeAs('galeri', $namaGambar);
+            $nama   = $request->file('nama');
+            $filename = time() . '-'  . '.' . $nama->getClientOriginalExtension();
+            $nama->storeAs('gallery', $filename, 'public');
         } else {
-            $namaGambar = $gallery->nama;
+            $filename = null;
         }
 
         // Update database
-        $gallery->update([
-            'nama' => $namaGambar,
-            'tipe' => $request->tipe
-        ]);
+        $gallery->nama = $filename;
+        $gallery->tipe = $request->tipe;
+        $gallery->save();
 
         return redirect()->back()->with('success', 'Gambar berhasil diperbarui.');
     }

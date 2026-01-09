@@ -1,8 +1,8 @@
-@extends('user.template')
+@extends('user.nav')
 
 @section('title','Tentang Kami')
 
-@section('content')
+@section('navbar')
 
 <style>
 /* ================= HERO TENTANG ================= */
@@ -45,7 +45,7 @@
 {{-- ================= HERO ================= --}}
 <div class="hero-tentang">
     <div class="container hero-content">
-        <h1 class="fw-bold">Tentang Kami</h1>
+        <h1 class="hero-title">TENTANG KAMI</h1>
         <p class="mt-2 text-white-50 col-lg-6">
             Mengenal lebih dekat perjalanan dan nilai yang kami bangun bersama.
         </p>
@@ -127,10 +127,10 @@
                     Kepercayaan pelanggan adalah prioritas utama kami.
                 </p>
             </div>
-        </div>you
+        </div>
 
         <div class="col-md-4 mb-4">
-            <div class="p-4 shadow-sm rounded-4 h-100">to
+            <div class="p-4 shadow-sm rounded-4 h-100">
                 <h6 class="fw-bold">Inovasi</h6>
                 <p class="text-muted small">
                     Kami terus berkembang mengikuti tren yg dan kebutuhan pasar.

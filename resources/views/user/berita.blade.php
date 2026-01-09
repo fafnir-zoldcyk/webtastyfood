@@ -1,6 +1,5 @@
-@extends('user.template')
-@section('body-class', 'bg-light')
-@section('content')
+@extends('user.nav')
+@section('navbar')
 
 <style>
 /* HERO */
@@ -92,7 +91,7 @@
                         {{ Str::limit(strip_tags($item->isi), 80) }}
                     </p>
 
-                    <a href="{{ route('user.beritadetail', $item->id) }}">
+                    <a href="{{ route('user.detail', Crypt::encrypt($item->id)) }}">
                         Baca selengkapnya
                     </a>
                 </div>

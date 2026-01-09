@@ -49,6 +49,10 @@
     font-size:14px;
     letter-spacing:1px;
     font-weight:500;
+    transition: color 0.3s ease, transform 0.3s ease; /* lebih smooth */
+}
+.navbar .nav-link:hover {
+    transform: translateY(-2px);
 }
 /* NAVBAR SCROLL EFFECT */
 .navbar {
@@ -59,6 +63,25 @@
     background: #ffffff !important;
     box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
+/* ===============================
+   NAVBAR AUTH BUTTON
+=================================*/
+.nav-auth-btn {
+    border: 1.5px solid #000;
+    padding: 8px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: transparent;
+    color: #000 !important;
+    transition: all 0.3s ease;
+}
+
+.nav-auth-btn:hover {
+    background: #000;
+    color: #fff !important;
+}
+
 
 /* DEFAULT (HALAMAN SELAIN HOME) */
         .navbar-inner{
@@ -95,16 +118,33 @@
     line-height:1.2;
     color:#222;
 }
-/* .hero-title::before{
-    content:"";
+/* .hero-title::before {
+    content: "";
+    position: absolute;
+    top: 0; /* Atur posisi vertikal garis */
+    left: 0;
+    width: 50px; /* Panjang garis */
+    height: 4px; /* Tebal garis */
+    background-color: #000; /* Warna garis hitam */
+    border-radius: 2px; /* Opsional, untuk garis sedikit membulat */
+    transform: translateY(-150%); /* Geser garis ke atas */
+} */
+.line-top {
+    position: relative;
+    display: inline-block; /* supaya width bisa diatur */
+}
+
+.line-top::before {
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
-    width:50px;
-    height:4px;
-    background:#000000;
-    margin-bottom:16px;
-} */
+    width: 50px;
+    height: 4px;
+    background-color: #000;
+    border-radius: 2px;
+    transform: translateY(-150%);
+}
 .hero-text p{
     max-width:420px;
     color:#555;
@@ -233,6 +273,18 @@
             background: #222;
             color: #fff;
         }
+        .btn-tentang {
+            background: #000;
+            color: #fff;
+            padding: 12px 80px;
+            border-radius: 0;
+            font-weight: 600;
+            letter-spacing: .5px;
+        }
+        .btn-tentang:hover {
+            background: #222;
+            color: #fff;
+        }
 
         /* footer */
         .footer-dark {
@@ -326,6 +378,20 @@
                 <li class="nav-item"><a class="nav-link" href="/berita">BERITA</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('user.gallery') }}">GALERI</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('user.kontak') }}">KONTAK</a></li>
+                <li class="nav-item">
+                    <div>
+                            @auth
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button class="nav-auth-btn">LOGOUT</button>
+                            </form>
+                        @else
+                            <a href="{{ route('admin.login') }}" class="nav-auth-btn text-decoration-none">
+                                LOGIN
+                            </a>
+                        @endauth
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

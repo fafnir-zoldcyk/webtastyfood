@@ -14,7 +14,12 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function index(){
-        return view('admin.dashboard');
+        return view('admin.dashboard', [
+        'totalBerita' => Berita::count(),
+        'totalGaleri' => Gallery::count(),
+        'totalKontak' => Kontak::count(),
+        'beritaTerbaru' => Berita::latest()->take(5)->get(),
+    ]);
     }
     public function berita(){
         $data['berita'] = Berita::all();

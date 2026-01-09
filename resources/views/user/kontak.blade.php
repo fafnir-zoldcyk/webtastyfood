@@ -1,5 +1,5 @@
-@extends('user.template')
-@section('content')
+@extends('user.nav')
+@section('navbar')
 
 <style>
 /* ===============================

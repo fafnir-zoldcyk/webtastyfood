@@ -16,7 +16,7 @@ class KomentarController extends Controller
         ]);
         Komentar::create([
             'berita_id' => $request->berita_id,
-            'nama' => Auth::user()->nama,
+            'nama' => Auth::user()->name,
             'email' => Auth::user()->email,
             'rating' => $request->rating,
             'komentar' => $request->komentar,

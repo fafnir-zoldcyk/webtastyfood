@@ -53,7 +53,7 @@
                     </button>
                     </div>
                     <div class="card-footer text-muted-small">
-                        {{ \Carbon\Carbon::parse($item->timestamp)->format('d M Y') }}
+                        {{ Carbon::parse($item->timestamp)->format('d M Y') }}
                     </div>
                 </div>
             </div>

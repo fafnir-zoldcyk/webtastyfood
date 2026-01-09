@@ -1,6 +1,6 @@
-@extends('user.template')
+@extends('user.nav')
 
-@section('content')
+@section('navbar')
 <style>
 /* =======================
    BANNER

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 //User
 Route::get('/',[UserController::class,'home'])->name('user.home');
 Route::get('/berita',[UserController::class,'berita'])->name('user.berita');
-Route::get('/beritadetail/{id}',[UserController::class,'beritadetail'])->name('user.beritadetail');
+Route::get('/beritadetail/{id}',[UserController::class,'beritadetail'])->name('user.detail');
 Route::get('/tentang',[UserController::class,'tentang'])->name('user.tentang');
 Route::get('/gallery',[UserController::class,'gallery'])->name('user.gallery');
 Route::get('/kontak',[UserController::class,'kontak'])->name('user.kontak');
@@ -25,13 +25,13 @@ Route::post('/kontak',[UserController::class,'kontak'])->name('user.kontak.store
 
 Route::get('/login', [UserController::class, 'login'])->name('admin.login');
 Route::post('/login', [UserController::class, 'loginPost'])->name('admin.login-post');
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/register',[UserController::class,'register'])->name('regiter');
 Route::post('/register',[UserController::class,'registerPost'])->name('regiter-store');
 
 Route::middleware(['admin'])->group(function (){
     //Admin
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/logout/admin', [UserController::class, 'logout'])->name('logout.admin');
 
     //User
     Route::get('/aduser',[AdminController::class,'user'])->name('admin.user');
@@ -72,11 +72,11 @@ Route::middleware(['admin'])->group(function (){
     
     //Kontak
     Route::get('/adkontak',[AdminController::class,'kontak'])->name('admin.kontak');
-    Route::post('/kontakstore',[KontakController::class,'store'])->name('admin-kontak-store');
-    Route::put('/kontakupdate/{id}',[KontakController::class,'update'])->name('admin-kontak-update');
-    Route::delete('/kontakdelete/{id}',[KontakController::class,'delete'])->name('admin-kontak-delete');
-    
-    Route::put('/markasread/{id}',[KontakController::class,'markasRead'])->name('admin-kontak-markasread');
+    Route::post('/kontakstore',[KontakController::class,'store'])->name('admin.kontak-store');
+    Route::put('/kontakupdate/{id}',[KontakController::class,'update'])->name('admin.kontak-update');
+    Route::delete('/kontakdelete/{id}',[KontakController::class,'delete'])->name('admin.kontak-delete');
+
+    Route::put('/markasread/{id}',[KontakController::class,'markasRead'])->name('admin.kontak-markasread');
 });
 
 //Komentar
