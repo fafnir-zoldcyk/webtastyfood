@@ -91,6 +91,17 @@
         .btn-primary:hover {
             background: linear-gradient(135deg, #1D4ED8, #1E40AF);
         }
+        .img-wrapper {
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /* ================= RESPONSIVE ================= */
         @media (max-width: 991.98px) {

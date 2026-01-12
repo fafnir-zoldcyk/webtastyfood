@@ -7,6 +7,8 @@
 
     {{-- Bootstrap 5 --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
 
     {{-- Font Awesome --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
@@ -381,7 +383,7 @@
                 <li class="nav-item">
                     <div>
                             @auth
-                            <form action="{{ route('logout') }}" method="POST">
+                            <form action="{{ route('logout') }}" method="get">
                                 @csrf
                                 <button class="nav-auth-btn">LOGOUT</button>
                             </form>
@@ -424,10 +426,10 @@
 
                 <div class="d-flex gap-3 mt-3">
                     <a href="#" class="social-icon facebook">
-                        <i class="bi bi-facebook"></i>
+                        <i class="fa-brands fa-facebook-f"></i>
                     </a>
                     <a href="#" class="social-icon twitter">
-                        <i class="bi bi-twitter"></i>
+                        <i class="fa-brands fa-twitter"></i>
                     </a>
                 </div>
             </div>

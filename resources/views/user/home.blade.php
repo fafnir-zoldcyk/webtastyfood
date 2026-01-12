@@ -155,7 +155,7 @@
             <div class="row g-4">
                 @foreach($galeri as $img)
                 <div class="col-lg-4 col-md-6">
-                    <img src="{{ asset($img) }}" class="galeri-img">
+                    <img src="{{ asset('storage/gallery/'.$img->nama) }}" class="galeri-img">
                 </div>
                 @endforeach
             </div>

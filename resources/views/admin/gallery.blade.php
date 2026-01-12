@@ -28,8 +28,10 @@
             <div class="col-md-4">
                 <div class="card shadow-sm rounded-4 h-100">
                     @if ($item->tipe == 'foto')
-                    <img src="{{ asset('storage/gallery/' .$item->nama) }}"
-                    class="card-img-top rounded-top-4" alt="{{ $item->nama }}">
+                    <div class="img-wrapper">
+                        <img src="{{ asset('storage/gallery/' .$item->nama) }}"
+                        class="card-img-top rounded-top-4" alt="{{ $item->nama }}">
+                    </div>
                     @elseif ($item->tipe == 'video')
                     <video width="100%" height="auto" controls>
                         <source src="{{ asset('storage/gallery/' .$item->nama) }}" type="video/mp4">

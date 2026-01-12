@@ -26,9 +26,11 @@ class AdminController extends Controller
         return view('admin.berita',$data);
     }
     public function tentang(){
-        $data['tentang'] = Tentang::all();
-        return view('admin.tentang',$data);
-    }
+    $data['tentang'] = Tentang::all();
+    $data['gambars'] = Gambar::all();
+    return view('admin.tentang', $data);
+}
+
     public function gambar(){
         $data['gambar'] = Gambar::all();
         return view('admin.gambar',$data);

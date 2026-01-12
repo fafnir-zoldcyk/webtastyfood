@@ -105,7 +105,7 @@
             <div class="carousel-inner">
                 @foreach ($galeri as $item)
                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                    <img src="{{ asset('storage/galeri/'.$item->nama) }}" class="d-block w-100" alt="...">
+                    <img src="{{ asset('storage/gallery/'.$item->nama) }}" class="d-block w-100" alt="...">
                 </div>
                 @endforeach
             </div>
@@ -127,7 +127,7 @@
     <section class="gallery">
         <div class="gallery-grid">
             @foreach ($galeri as $image)
-            <img src="{{ asset('storage/galeri/'.$image->nama) }}" alt="Gallery Image">
+            <img src="{{ asset('storage/gallery/'.$image->nama) }}" alt="Gallery Image">
             @endforeach
         </div>
     </section>

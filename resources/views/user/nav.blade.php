@@ -337,8 +337,8 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarMain">
                 <ul class="navbar-nav gap-4">
                     <li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/berita">BERITA</a></li>
                     <li class="nav-item"><a class="nav-link" href="/tentang">TENTANG</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/berita">BERITA</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('user.gallery') }}">GALERI</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('user.kontak') }}">KONTAK</a></li>
                     <li class="nav-item">

@@ -68,7 +68,7 @@
                 {{ Str::limit(strip_tags($berita->isi), 220) }}
             </p>
 
-            <a href="#detail" class="btn btn-dark px-4">
+            <a href="{{ route('user.detail', Crypt::encrypt($berita->id)) }}" class="btn btn-dark px-4">
                 BACA SELENGKAPNYA
             </a>
         </div>
