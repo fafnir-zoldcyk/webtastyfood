@@ -146,6 +146,10 @@
 .nav-profile-left .profile-icon:hover{
     transform: scale(1.08);
 }
+.navbar.scrolled .dropdown img {
+    border-color: #000 !important;
+}
+
 
 
 
@@ -386,44 +390,58 @@
             </div>
 
             <!-- PROFILE FOTO DROPDOWN -->
-            <!-- PROFILE AREA -->
-<div class="nav-item ms-4">
+            <!-- PROFILE ICON -->
+<div class="nav-item dropdown ms-4">
 
     @auth
-        <!-- JIKA SUDAH LOGIN -->
-        <div class="dropdown">
-            <a href="#" id="profileDropdown" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false"
-               class="nav-link p-0">
-                <img src="{{ empty(Auth::user()->profile) 
-                    ? asset('asset/food/user.png') 
-                    : asset('storage/profile/'.Auth::user()->profile) }}"
-                     alt="Profile"
-                     class="rounded-circle"
-                     style="width:40px; height:40px; object-fit:cover; border:2px solid #fff;">
-            </a>
+        <!-- SAAT LOGIN -->
+        <a href="#" id="profileDropdown"
+           class="nav-link p-0"
+           data-bs-toggle="dropdown"
+           aria-expanded="false">
 
-            <ul class="dropdown-menu dropdown-menu-end shadow">
-                <li><a class="dropdown-item" href="/profile">Edit Profile</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item">Logout</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
+            <img
+                src="{{ empty(Auth::user()->profile)
+                    ? asset('asset/food/user.png')
+                    : asset('storage/profile/'.Auth::user()->profile) }}"
+                alt="Profile"
+                class="rounded-circle"
+                style="
+                    width:40px;
+                    height:40px;
+                    object-fit:cover;
+                    border:2px solid #fff;
+                    cursor:pointer;
+                ">
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li>
+                <a class="dropdown-item" href="/profile">
+                    <i class="fa fa-user me-2"></i> Profile
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form action="{{ route('logout') }}" method="GET" class="m-0">
+                    @csrf
+                    <button type="submit" class="dropdown-item text-danger">
+                        <i class="fa fa-right-from-bracket me-2"></i> Logout
+                    </button>
+                </form>
+            </li>
+        </ul>
 
     @else
-        <!-- JIKA BELUM LOGIN -->
-        <a href="{{ route('admin.login') }}" class="profile-icon" title="Login">
+        <!-- SAAT LOGOUT -->
+        <a href="{{ route('admin.login') }}"
+           class="profile-icon"
+           title="Login">
             <i class="fa fa-user"></i>
         </a>
     @endauth
 
 </div>
-
 
             <!-- TOGGLER MOBILE -->
             <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">

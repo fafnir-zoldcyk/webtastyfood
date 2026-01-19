@@ -38,7 +38,7 @@
                     </div>
                     <div class="mt-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" name="password" id="password" class="form-control" value="{{ $user->password }}">
+                        <input type="password" name="password" id="password" class="form-control">
                     </div>
                     <div class="mt-3">
                         <label for="profile" class="form-label">Upload Image</label><br>

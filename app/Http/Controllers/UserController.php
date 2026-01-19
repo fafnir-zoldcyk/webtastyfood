@@ -77,7 +77,7 @@ class UserController extends Controller
     public function registerPost(Request $request){
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|max:255|unique:users,email',
             'password' => 'required|string|min:3',
             
         ]);    
@@ -99,10 +99,11 @@ class UserController extends Controller
         return view('user.profile-edit', $data);
     }
     public function profileUpdate(Request $request, $id){
+        // dd($request->all());
         $id = $this->decryptId($id);
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255|unique:users,email,',
+            'email' => 'required|email|max:255|unique:users,email,'. $id,
             'profile' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'password' => 'nullable|string|min:3',
         ]);  
@@ -114,12 +115,20 @@ class UserController extends Controller
         } else {
             $filename = $user->profile;
         }
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
-            'profile' => $filename
-        ]);
+            // Update data
+    $data = [
+        'name' => $request->name,
+        'email' => $request->email,
+        'profile' => $filename,
+    ];
+
+    // Hanya update password kalau diisi
+    if ($request->filled('password')) {
+        $data['password'] = bcrypt($request->password);
+    }
+
+    $user->update($data);
+
         return redirect()->route('user.profile')->with('pesan', 'Profile updated successfully.');
     }
 
