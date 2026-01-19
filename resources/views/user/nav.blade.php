@@ -106,6 +106,47 @@
             background: #000;
             color: #fff !important;
         }
+        /* ===============================
+   PROFILE ICON (LOGIN)
+=================================*/
+.nav-profile-left .profile-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition: all .3s ease;
+}
+
+/* NAVBAR TRANSPARAN (BELUM SCROLL) */
+.navbar:not(.scrolled) .nav-profile-left .profile-icon{
+    border:2px solid #fff;
+    background:transparent;
+}
+
+.navbar:not(.scrolled) .nav-profile-left .profile-icon i{
+    color:#fff;
+    font-size:18px;
+}
+
+/* NAVBAR SETELAH SCROLL */
+.navbar.scrolled .nav-profile-left .profile-icon{
+    border:2px solid #000;
+    background:#fff;
+}
+
+.navbar.scrolled .nav-profile-left .profile-icon i{
+    color:#000;
+    font-size:18px;
+}
+
+/* HOVER */
+.nav-profile-left .profile-icon:hover{
+    transform: scale(1.08);
+}
+
 
 
         /* ===============================
@@ -322,44 +363,77 @@
 <body class="body-class">
 
     {{-- NAVBAR --}}
-    <nav class="navbar navbar-expand-lg">
-        <div class="container">
+    <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container d-flex align-items-center justify-content-between">
 
-            {{-- LOGO KIRI --}}
-            <a class="navbar-brand" href="/">TASTY FOOD</a>
+        <!-- LOGO -->
+        <a class="navbar-brand text-white fw-bold" href="/" style="font-size:22px; letter-spacing:1px;">
+            TASTY FOOD
+        </a>
 
-            {{-- TOGGLER MOBILE --}}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <!-- MENU & PROFILE -->
+        <div class="d-flex align-items-center">
 
-            {{-- MENU KANAN --}}
-            <div class="collapse navbar-collapse justify-content-end" id="navbarMain">
+            <!-- MENU NAV -->
+            <div class="collapse navbar-collapse" id="navbarMain">
                 <ul class="navbar-nav gap-4">
-                    <li class="nav-item"><a class="nav-link" href="/">HOME</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/tentang">TENTANG</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/berita">BERITA</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('user.gallery') }}">GALERI</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('user.kontak') }}">KONTAK</a></li>
-                    <li class="nav-item">
-                    <div >
-                            @auth
-                            <form action="{{ route('logout') }}" method="get">
-                                @csrf
-                                <button class="nav-auth-btn">LOGOUT</button>
-                            </form>
-                        @else
-                            <a href="{{ route('admin.login') }}" class="nav-auth-btn text-decoration-none">
-                                LOGIN
-                            </a>
-                        @endauth
-                    </div>
-                </li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/">HOME</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/tentang">TENTANG</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="/berita">BERITA</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{{ route('user.gallery') }}">GALERI</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{{ route('user.kontak') }}">KONTAK</a></li>
                 </ul>
             </div>
 
+            <!-- PROFILE FOTO DROPDOWN -->
+            <!-- PROFILE AREA -->
+<div class="nav-item ms-4">
+
+    @auth
+        <!-- JIKA SUDAH LOGIN -->
+        <div class="dropdown">
+            <a href="#" id="profileDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false"
+               class="nav-link p-0">
+                <img src="{{ empty(Auth::user()->profile) 
+                    ? asset('asset/food/user.png') 
+                    : asset('storage/profile/'.Auth::user()->profile) }}"
+                     alt="Profile"
+                     class="rounded-circle"
+                     style="width:40px; height:40px; object-fit:cover; border:2px solid #fff;">
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+                <li><a class="dropdown-item" href="/profile">Edit Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="dropdown-item">Logout</button>
+                    </form>
+                </li>
+            </ul>
         </div>
-    </nav>
+
+    @else
+        <!-- JIKA BELUM LOGIN -->
+        <a href="{{ route('admin.login') }}" class="profile-icon" title="Login">
+            <i class="fa fa-user"></i>
+        </a>
+    @endauth
+
+</div>
+
+
+            <!-- TOGGLER MOBILE -->
+            <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        </div>
+    </div>
+</nav>
+
 
     {{-- HERO BACKGROUND (KHUSUS PAGE SELAIN HOME) --}}
 @if (View::hasSection('hero-bg'))

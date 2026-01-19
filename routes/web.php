@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
 //User
 Route::get('/',[UserController::class,'home'])->name('user.home');
 Route::get('/berita',[UserController::class,'berita'])->name('user.berita');
@@ -81,6 +82,9 @@ Route::middleware(['admin'])->group(function (){
 
 //Komentar
 Route::middleware(['user'])->group(function () {
+    Route::get('/profile', [UserController::class, 'profile'])->name('user.profile');
+    Route::get('/profileedit/{id}', [UserController::class, 'profileEdit'])->name('user.profile-edit');
+    Route::post('/profileupdate/{id}', [UserController::class, 'profileUpdate'])->name('user.profile-update');
     Route::post('/komentarstore',[KomentarController::class,'komentar'])->name('komentar.store');
     Route::get('/logout', [UserController::class, 'logout'])->name('logout');
     

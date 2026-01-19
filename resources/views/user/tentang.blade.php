@@ -12,7 +12,6 @@
     position: relative;
     z-index: 1;
 }
-
 .hero-tentang::after{
     content:'';
     position:absolute;
@@ -20,11 +19,10 @@
     background: rgba(0,0,0,.55);
     z-index: 1;
 }
-
 .hero-tentang .hero-content{
     position: relative;
     z-index: 2;
-    padding-top: 120px; /* offset navbar fixed */
+    padding-top: 120px;
     color:#fff;
 }
 
@@ -35,10 +33,33 @@
     width:100%;
 }
 
+/* ================= MISI IMAGE ================= */
+.misi-image{
+    width:100%;
+    height:300px;
+    background-image:url('{{ asset("asset/food/sau.jpg") }}');
+    background-size:cover;
+    background-position:center;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+    transition:transform .3s ease;
+}
+.misi-image:hover{
+    transform:scale(1.03);
+}
+
 /* ================= SECTION TITLE ================= */
 .section-title{
     font-weight:700;
     margin-bottom:16px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width:768px){
+    .misi-image{
+        height:220px;
+        margin-top:20px;
+    }
 }
 </style>
 
@@ -69,16 +90,23 @@
         </div>
         <div class="col-lg-6">
             <div class="d-flex gap-3">
-                <img src="{{ asset('asset/gambar/eiliv-aceron-ZuIDLSz3XLg-unsplash.jpg') }}" class="img-fluid rounded-4 shadow-sm about-img">
-                <img src="{{ asset('asset/gambar/eiliv-aceron-ZuIDLSz3XLg-unsplash.jpg') }}" class="img-fluid rounded-4 shadow-sm about-img">
+                <img src="{{ asset('asset/gambar/brooke-lark-oaz0raysASk-unsplash.jpg') }}"
+                     class="img-fluid rounded-4 shadow-sm about-img">
+                <img src="{{ asset('asset/gambar/sebastian-coman-photography-eBmyH7oO5wY-unsplash.jpg') }}"
+                     class="img-fluid rounded-4 shadow-sm about-img">
             </div>
         </div>
     </div>
 
     {{-- ================= VISI ================= --}}
     <div class="row align-items-center mb-5">
-        <div class="col-lg-6 mb-4 mb-lg-0">
-            <img src="{{ asset('asset/gambar/eiliv-aceron-ZuIDLSz3XLg-unsplash.jpg') }}" class="img-fluid rounded-4 shadow-sm">
+        <div class="col-lg-6">
+            <div class="d-flex gap-3">
+                <img src="{{ asset('asset/gambar/fathul-abrar-T-qI_MI2EMA-unsplash.jpg') }}"
+                     class="img-fluid rounded-4 shadow-sm about-img">
+                <img src="{{ asset('asset/gambar/michele-blackwell-rAyCBQTH7ws-unsplash.jpg') }}"
+                     class="img-fluid rounded-4 shadow-sm about-img">
+            </div>
         </div>
         <div class="col-lg-6">
             <h5 class="section-title">VISI</h5>
@@ -101,12 +129,12 @@
             </ul>
         </div>
         <div class="col-lg-6">
-            <img src="{{ asset('asset/gambar/eiliv-aceron-ZuIDLSz3XLg-unsplash.jpg') }}" class="img-fluid rounded-4 shadow-sm">
+            <div class="misi-image"></div>
         </div>
     </div>
 
     {{-- ================= VALUES ================= --}}
-    <div class="row text-center">
+    {{-- <div class="row text-center">
         <div class="col-12 mb-4">
             <h5 class="section-title">NILAI KAMI</h5>
         </div>
@@ -133,11 +161,11 @@
             <div class="p-4 shadow-sm rounded-4 h-100">
                 <h6 class="fw-bold">Inovasi</h6>
                 <p class="text-muted small">
-                    Kami terus berkembang mengikuti tren yg dan kebutuhan pasar.
+                    Kami terus berkembang mengikuti tren dan kebutuhan pasar.
                 </p>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 </div>
 

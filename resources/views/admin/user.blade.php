@@ -46,7 +46,8 @@
                     <thead class="table-light">
                         <tr>
                             <th>Nama</th>
-                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Profile</th>
                             <th>Role</th>
                             <th class="text-center" width="120">Aksi</th>
                         </tr>
@@ -55,7 +56,10 @@
                         @foreach ($user as $item)
                             <tr>
                                 <td class="fw-semibold">{{ $item->name }}</td>
-                                <td>{{ $item->username }}</td>
+                                <td>{{ $item->email }}</td>
+                                <td>
+                                    <img src="{{ asset('storage/profile/'.$item->profile) }}" style="width: 100px;height:150px">
+                                </td>
                                 <td>
                                     <span class="badge {{ $item->role == 'admin' ? 'bg-primary' : 'bg-secondary' }}">
                                         {{ ucfirst($item->role) }}
@@ -98,7 +102,7 @@
                     <div class="modal-dialog modal-lg">
                         <form class="modal-content"
                               action="{{ route('admin.user-update', Crypt::encrypt($item->id)) }}"
-                              method="POST">
+                              method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
@@ -115,13 +119,18 @@
                                                value="{{ $item->name }}">
                                     </div>
                                     <div class="col-md-6">
-                                        <label class="form-label">Username</label>
-                                        <input type="text" name="username" class="form-control"
-                                               value="{{ $item->username }}">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control"
+                                               value="{{ $item->email }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Password (Opsional)</label>
                                         <input type="password" name="password" class="form-control"
+                                               placeholder="Kosongkan jika tidak diubah">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Profile</label>
+                                        <input type="file" name="profile" class="form-control"
                                                placeholder="Kosongkan jika tidak diubah">
                                     </div>
                                     <div class="col-md-6">
@@ -184,11 +193,11 @@
 {{-- Modal Tambah --}}
 <div class="modal fade" id="modalTambah" tabindex="-1">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" action="{{ route('admin.user-store') }}" method="POST">
+        <form class="modal-content" action="{{ route('admin.user-store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="modal-header">
                 <h5 class="modal-title">Tambah User</h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="row g-3">
@@ -197,12 +206,16 @@
                         <input type="text" name="name" class="form-control">
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Username</label>
-                        <input type="text" name="username" class="form-control">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Password</label>
                         <input type="password" name="password" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="form-label">Profile</label>
+                        <input type="file" name="profile" class="form-control">
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Role</label>

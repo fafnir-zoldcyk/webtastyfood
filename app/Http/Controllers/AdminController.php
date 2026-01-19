@@ -10,86 +10,169 @@ use App\Models\Tentang;
 use App\Models\User;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
+    // ======================
+    // DASHBOARD
+    // ======================
     public function index(){
         return view('admin.dashboard', [
-        'totalBerita' => Berita::count(),
-        'totalGaleri' => Gallery::count(),
-        'totalKontak' => Kontak::count(),
-        'beritaTerbaru' => Berita::latest()->take(5)->get(),
-    ]);
+            'totalBerita' => Berita::count(),
+            'totalGaleri' => Gallery::count(),
+            'totalKontak' => Kontak::count(),
+            'beritaTerbaru' => Berita::latest()->take(5)->get(),
+        ]);
     }
+
     public function berita(){
-        $data['berita'] = Berita::all();
-        return view('admin.berita',$data);
+        return view('admin.berita', [
+            'berita' => Berita::all()
+        ]);
     }
+
     public function tentang(){
-    $data['tentang'] = Tentang::all();
-    $data['gambars'] = Gambar::all();
-    return view('admin.tentang', $data);
-}
+        return view('admin.tentang', [
+            'tentang' => Tentang::all(),
+            'gambars' => Gambar::all()
+        ]);
+    }
 
     public function gambar(){
-        $data['gambar'] = Gambar::all();
-        return view('admin.gambar',$data);
+        return view('admin.gambar', [
+            'gambar' => Gambar::all()
+        ]);
     }
+
     public function kontak(){
-        $data['kontak'] = Kontak::all();
-        return view('admin.kontak',$data);
+        return view('admin.kontak', [
+            'kontak' => Kontak::all()
+        ]);
     }
+
     public function gallery(){
-        $data['gallery'] = Gallery::all();
-        return view('admin.gallery',$data);
+        return view('admin.gallery', [
+            'gallery' => Gallery::all()
+        ]);
     }
+
+    // ======================
+    // USER
+    // ======================
     public function user(){
-        $data['user'] = User::all();
-        return view('admin.user',$data);
+        return view('admin.user', [
+            'user' => User::all()
+        ]);
     }
+
+    // ======================
+    // STORE USER
+    // ======================
     public function store(Request $request){
         $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
             'password' => 'required|string|min:3',
-            'role' => 'required|string|max:50'
+            'profile'  => 'required|file|mimes:jpg,jpeg,png,gif|max:5080',
+            'role'     => 'required|string|max:50'
         ]);
+
+        $filename = null;
+
+        if ($request->hasFile('profile')) {
+            $profile  = $request->file('profile');
+            $filename = time() . '-' . $request->name . '.' . $profile->getClientOriginalExtension();
+            $profile->storeAs('profile', $filename, 'public');
+        }
+
         User::create([
-            'name' => $request->name,
-            'username' => $request->username,
+            'name'     => $request->name,
+            'email'    => $request->email,
             'password' => bcrypt($request->password),
-            'role' => $request->role
+            'profile'  => $filename,
+            'role'     => $request->role
         ]);
-        return redirect()->route('admin.user')->with('success','User Berhasil Ditambahkan');
+
+        return redirect()->route('admin.user')
+            ->with('success','User berhasil ditambahkan');
     }
+
+    // ======================
+    // DECRYPT ID
+    // ======================
     private function decryptId($id){
-        try{
+        try {
             return decrypt($id);
-        }catch (DecryptException $e){
+        } catch (DecryptException $e){
             abort(404);
         }
     }
+
+    // ======================
+    // UPDATE USER + FOTO
+    // ======================
     public function update(Request $request, $id){
         $id = $this->decryptId($id);
+
         $request->validate([
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'password' => 'nullable|string|min:3'
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|string|min:3',
+            'profile'  => 'nullable|file|mimes:jpg,jpeg,png,gif|max:5080',
+            'role'     => 'required|string|max:50'
         ]);
+
         $user = User::findOrFail($id);
-        $user->update([
-            'name' => $request->name,
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'role' => $request->role
-        ]);
-        return redirect()->route('admin.user')->with('success','User Berhasil Di Update');   
+
+        $data = [
+            'name'  => $request->name,
+            'email' => $request->email,
+            'role'  => $request->role
+        ];
+
+        // update password jika diisi
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->password);
+        }
+
+        // update foto profile jika ada
+        if ($request->hasFile('profile')) {
+
+            // hapus foto lama
+            if ($user->profile && Storage::disk('public')->exists('profile/' . $user->profile)) {
+                Storage::disk('public')->delete('profile/' . $user->profile);
+            }
+
+            $profile  = $request->file('profile');
+            $filename = time() . '-' . $request->name . '.' . $profile->getClientOriginalExtension();
+            $profile->storeAs('profile', $filename, 'public');
+
+            $data['profile'] = $filename;
+        }
+
+        $user->update($data);
+
+        return redirect()->route('admin.user')
+            ->with('success','User berhasil diupdate');
     }
+
+    // ======================
+    // DELETE USER
+    // ======================
     public function delete($id){
         $id = $this->decryptId($id);
+
         $user = User::findOrFail($id);
+
+        // hapus foto profile
+        if ($user->profile && Storage::disk('public')->exists('profile/' . $user->profile)) {
+            Storage::disk('public')->delete('profile/' . $user->profile);
+        }
+
         $user->delete();
-        return redirect()->back()->with('success','User Berhasil Di Hapus');
+
+        return redirect()->back()
+            ->with('success','User berhasil dihapus');
     }
-    
 }

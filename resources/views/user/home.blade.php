@@ -114,16 +114,18 @@
 
     <h3 class="text-center fw-bold mb-4">BERITA KAMI</h3>
 
-    <div class="row g-4">
+    <div class="row g-3 align-items-stretch">
 
         {{-- BERITA UTAMA --}}
-        <div class="col-lg-6">
-            <div class="card shadow-sm rounded-4 card-utama">
-                <img src="{{  asset('storage/foto/'. $utama->foto) }}" class="card-img-top rounded-top-4">
-                <div class="card-body">
+        <div class="col-lg-6 d-flex">
+            <div class="card shadow-sm rounded-4 card-utama ">
+                <img src="{{  asset('storage/foto/'. $utama->foto) }}" style="height: 500px" class="card-img-top rounded-top-4">
+                <div class="card-body p-4 d-flex flex-column">
                     <h5 class="fw-bold">{{ $utama->judul }}</h5>
-                    <p class="text-muted">{{ $utama->deskripsi }}</p>
-                    <a href="{{ route('user.detail', Crypt::encrypt($utama->id)) }}" class="read-more">Baca selengkapnya</a>
+                    <p class="text-muted small">{{ Str::limit($utama->isi, 400) }}</p>
+                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                        <a href="{{ route('user.detail', Crypt::encrypt($utama->id)) }}" class="read-more">Baca selengkapnya</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,7 +140,7 @@
                         <div class="card-body d-flex flex-column">
                             <h6 class="fw-bold">{{ $item['judul'] }}</h6>
                             <p class="text-muted small flex-grow-1">
-                                {{ $item['deskripsi'] }}
+                                {{ Str::limit($utama->isi, 80) }}
                             </p>
                             <a href="{{ route('user.detail', Crypt::encrypt($item->id)) }}" class="read-more small">Baca selengkapnya</a>
                         </div>

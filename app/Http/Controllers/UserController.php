@@ -18,7 +18,7 @@ class UserController extends Controller
         $data['utama'] = Berita::latest()->first();
         $data['tentang'] = Tentang::latest()->skip(1)->take(4)->get();
         $data['berita'] = Berita::latest()->skip(1)->take(4)->get();
-        $data['galeri'] = Gallery::all();
+        $data['galeri'] = Gallery::latest()->skip(1)->take(3)->get();
         return view('user.home',$data);
     }
     public function tentang(){
@@ -79,6 +79,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|max:255|unique:users',
             'password' => 'required|string|min:3',
+            
         ]);    
         User::create([
             'name' => $request->name,
@@ -88,4 +89,38 @@ class UserController extends Controller
         ]);
         return redirect()->route('admin.login')->with('success', 'Registration successful. Please login.');
     }
+    public function profile(){
+        $data['user'] = Auth::user();
+        return view('user.profile', $data);
+    }
+    public function profileEdit($id){
+        $id = $this->decryptId($id);
+        $data['user'] = User::find($id);
+        return view('user.profile-edit', $data);
+    }
+    public function profileUpdate(Request $request, $id){
+        $id = $this->decryptId($id);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|max:255|unique:users,email,',
+            'profile' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'password' => 'nullable|string|min:3',
+        ]);  
+          $user = User::find($id);
+          if ($request->hasFile('profile')) {
+            $profile   = $request->file('profile');
+            $filename = time() . '-' . $request->name . '.' . $profile->getClientOriginalExtension();
+            $profile->storeAs('profile', $filename, 'public');
+        } else {
+            $filename = $user->profile;
+        }
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+            'profile' => $filename
+        ]);
+        return redirect()->route('user.profile')->with('pesan', 'Profile updated successfully.');
+    }
+
 }

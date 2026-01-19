@@ -120,17 +120,52 @@
     line-height:1.2;
     color:#222;
 }
-/* .hero-title::before {
-    content: "";
+/* ===============================
+   PROFILE ICON LEFT
+=================================*/
+.nav-profile-left{
     position: absolute;
-    top: 0; /* Atur posisi vertikal garis */
-    left: 0;
-    width: 50px; /* Panjang garis */
-    height: 4px; /* Tebal garis */
-    background-color: #000; /* Warna garis hitam */
-    border-radius: 2px; /* Opsional, untuk garis sedikit membulat */
-    transform: translateY(-150%); /* Geser garis ke atas */
-} */
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 20;
+}
+
+.nav-profile-left img{
+    width:40px;
+    height:40px;
+    object-fit:cover;
+    border-radius:50%;
+    border:2px solid #000;
+    cursor:pointer;
+}
+
+.nav-profile-left .profile-icon{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:2px solid #000;
+    cursor:pointer;
+    background:#fff;
+}
+
+.nav-profile-left .profile-icon i{
+    font-size:18px;
+    color:#000;
+}
+
+.navbar.scrolled .nav-profile-img{
+    border-color:#000;
+}
+
+.dropdown-menu{
+    border:none;
+    border-radius:12px;
+}
+
 .line-top {
     position: relative;
     display: inline-block; /* supaya width bisa diatur */
@@ -225,7 +260,7 @@
             top: -50px;
             left: 50%;
             transform: translateX(-50%);
-            border: 5px solid #fff;
+            /* border: 5px solid #fff; */
         }
 
         .food-card h5 {
@@ -362,6 +397,9 @@
         margin-left:auto;
         margin-right:auto;
     }
+    .nav-profile-left{
+        left:15px;
+    }
 }
 
     </style>
@@ -370,6 +408,46 @@
 
 {{-- NAVBAR --}}
 <nav class="navbar navbar-expand-lg">
+    <div class="nav-profile-left dropdown">
+
+    {{-- SAAT LOGIN --}}
+    @auth
+    <a href="#" id="profileDropdownLeft"
+       data-bs-toggle="dropdown" aria-expanded="false">
+        <img
+            src="{{ empty(Auth::user()->profile)
+                ? asset('asset/food/user.png')
+                : asset('storage/profile/'.Auth::user()->profile) }}"
+            alt="Profile">
+    </a>
+
+    <ul class="dropdown-menu shadow">
+        <li>
+            <a class="dropdown-item" href="/profile">
+                <i class="fa fa-user me-2"></i>Profile
+            </a>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+            <form action="{{ route('logout') }}" method="get" class="m-0">
+                @csrf
+                <button type="submit" class="dropdown-item text-danger">
+                    <i class="fa fa-right-from-bracket me-2"></i> Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+
+    {{-- SAAT LOGOUT --}}
+    @else
+    <a href="{{ route('admin.login') }}" class="profile-icon" title="Login">
+        <i class="fa fa-user"></i>
+    </a>
+    @endauth
+
+</div>
+
+
     <div class="container">
         <div class="d-flex align-items-center">
             <a class="navbar-brand fw-bold me-4" href="/">TASTY FOOD</a>
@@ -380,20 +458,40 @@
                 <li class="nav-item"><a class="nav-link" href="/berita">BERITA</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('user.gallery') }}">GALERI</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('user.kontak') }}">KONTAK</a></li>
-                <li class="nav-item">
-                    <div>
-                            @auth
-                            <form action="{{ route('logout') }}" method="get">
-                                @csrf
-                                <button class="nav-auth-btn">LOGOUT</button>
-                            </form>
-                        @else
-                            <a href="{{ route('admin.login') }}" class="nav-auth-btn text-decoration-none">
-                                LOGIN
+                {{-- <li class="nav-item dropdown">
+                    @auth
+                    <a href="#" class="nav-link p-0" id="profileDropdown"
+                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img
+                            src="{{ empty(Auth::user()->profile)
+                                ? asset('asset/food/user.png')
+                                : asset('storage/profile/'.Auth::user()->profile) }}"
+                            alt="Profile"
+                            class="nav-profile-img">
+                    </a>
+
+                    <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <li>
+                            <a class="dropdown-item" href="/profile">
+                                <i class="fa fa-user me-2"></i> Edit Profile
                             </a>
-                        @endauth
-                    </div>
-                </li>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="fa fa-right-from-bracket me-2"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                    @else
+                    <a href="{{ route('admin.login') }}" class="nav-auth-btn text-decoration-none">
+                        LOGIN
+                    </a>
+                    @endauth
+                </li> --}}
             </ul>
         </div>
     </div>

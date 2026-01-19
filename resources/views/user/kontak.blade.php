@@ -85,17 +85,17 @@
             @csrf
             <div class="row g-3">
                 <div class="col-md-6">
-                    <input type="text" name="Subject" class="form-control" placeholder="Subject">
-                    <input type="text" name="Name" class="form-control mt-3" placeholder="Name">
-                    <input type="email" name="Email" class="form-control mt-3" placeholder="Email">
+                    <input type="text" name="subject" class="form-control" placeholder="Subject">
+                    <input type="text" name="name" class="form-control mt-3" placeholder="Name">
+                    <input type="email" name="email" class="form-control mt-3" placeholder="Email">
                 </div>
 
                 <div class="col-md-6">
-                    <textarea rows="6" name="Message" class="form-control" placeholder="Message"></textarea>
+                    <textarea rows="6" name="pesan" class="form-control" placeholder="Message"></textarea>
                 </div>
 
                 <div class="col-12">
-                    <button class="btn btn-dark w-100 mt-2">KIRIM</button>
+                    <button type="submit" class="btn btn-dark w-100 mt-2">KIRIM</button>
                 </div>
             </div>
         </form>
